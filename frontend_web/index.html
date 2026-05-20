@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Restaurant Recommender</title>
+    <!-- Tailwind CSS via CDN for rapid styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        zomato: '#ff4b4b',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass {
+            background: rgba(30, 30, 46, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .loader {
+            border-top-color: #ff4b4b;
+            -webkit-animation: spinner 1.5s linear infinite;
+            animation: spinner 1.5s linear infinite;
+        }
+        @keyframes spinner {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100 min-h-screen font-sans">
+
+    <!-- Header -->
+    <header class="bg-gray-800 border-b border-gray-700 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <span class="text-3xl">🍽️</span>
+                <h1 class="text-2xl font-bold text-white tracking-tight">AI Recommender <span class="text-zomato">Groq</span></h1>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <!-- Sidebar / Form -->
+        <div class="lg:col-span-1">
+            <div class="glass p-6 rounded-2xl shadow-xl sticky top-8">
+                <h2 class="text-xl font-semibold mb-6 flex items-center"><span class="mr-2">🎯</span> Your Preferences</h2>
+                
+                <form id="prefForm" class="space-y-5">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-400 mb-1">📍 Location/City</label>
+                        <input type="text" id="location" placeholder="e.g. Bellandur" required
+                            class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-zomato transition-colors">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-400 mb-1">🍕 Cuisines (comma separated)</label>
+                        <input type="text" id="cuisines" placeholder="e.g. North Indian, Chinese" 
+                            class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-zomato transition-colors">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-400 mb-1">Min Budget (₹)</label>
+                            <input type="number" id="minBudget" value="0"
+                                class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-zomato transition-colors">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-400 mb-1">Max Budget (₹)</label>
+                            <input type="number" id="maxBudget" value="2000"
+                                class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-zomato transition-colors">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-400 mb-1">⭐ Minimum Rating</label>
+                        <input type="number" step="0.1" id="minRating" value="4.0"
+                            class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-zomato transition-colors">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-400 mb-1">✍️ Additional Preferences</label>
+                        <textarea id="additionalPrefs" rows="3" placeholder="e.g. Romantic vibe, outdoor seating..."
+                            class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-zomato transition-colors resize-none"></textarea>
+                    </div>
+
+                    <button type="submit" 
+                        class="w-full bg-zomato hover:bg-red-600 text-white font-bold py-3 px-4 rounded-lg transition-colors shadow-lg shadow-red-500/30 flex justify-center items-center">
+                        <span id="btnText">🔍 Find Restaurants</span>
+                        <div id="btnSpinner" class="hidden w-5 h-5 border-2 border-white border-solid rounded-full loader ml-2"></div>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Results Area -->
+        <div class="lg:col-span-2">
+            <div id="initialState" class="h-full flex flex-col items-center justify-center text-center p-12 text-gray-500 border-2 border-dashed border-gray-700 rounded-2xl">
+                <span class="text-6xl mb-4">✨</span>
+                <h3 class="text-2xl font-medium text-gray-300">Awaiting Your Preferences</h3>
+                <p class="mt-2">Enter your criteria in the sidebar and let the AI find your perfect meal.</p>
+            </div>
+
+            <div id="resultsContainer" class="hidden space-y-6">
+                <!-- Summary -->
+                <div class="glass p-6 rounded-2xl">
+                    <h3 id="resultSummary" class="text-xl font-semibold text-zomato leading-relaxed"></h3>
+                </div>
+                
+                <!-- Cards container -->
+                <div id="cardsArea" class="space-y-4"></div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const API_URL = 'http://localhost:8000/recommendations';
+
+        document.getElementById('prefForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // UI State updates
+            const btnText = document.getElementById('btnText');
+            const btnSpinner = document.getElementById('btnSpinner');
+            const initialState = document.getElementById('initialState');
+            const resultsContainer = document.getElementById('resultsContainer');
+            
+            btnText.textContent = "Analyzing...";
+            btnSpinner.classList.remove('hidden');
+            initialState.classList.add('hidden');
+            resultsContainer.classList.add('hidden');
+            document.getElementById('cardsArea').innerHTML = '';
+            
+            // Gather data
+            const cuisinesInput = document.getElementById('cuisines').value;
+            const cuisinesList = cuisinesInput ? cuisinesInput.split(',').map(c => c.trim()) : [];
+            
+            const payload = {
+                location: document.getElementById('location').value,
+                cuisines: cuisinesList,
+                min_budget: parseInt(document.getElementById('minBudget').value),
+                max_budget: parseInt(document.getElementById('maxBudget').value),
+                min_rating: parseFloat(document.getElementById('minRating').value),
+                additional_prefs: document.getElementById('additionalPrefs').value
+            };
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`Server error: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                // Render Results
+                document.getElementById('resultSummary').textContent = data.summary;
+                
+                const cardsArea = document.getElementById('cardsArea');
+                if (data.recommendations && data.recommendations.length > 0) {
+                    data.recommendations.forEach(rec => {
+                        const card = document.createElement('div');
+                        card.className = "bg-gray-800 border-l-4 border-zomato rounded-r-xl p-6 shadow-md hover:shadow-lg transition-shadow";
+                        card.innerHTML = `
+                            <div class="flex items-center mb-3">
+                                <span class="bg-zomato text-white text-sm font-bold px-3 py-1 rounded-full mr-3">#${rec.rank || '-'}</span>
+                                <h4 class="text-xl font-bold text-gray-100">${rec.name}</h4>
+                            </div>
+                            <p class="text-gray-400 leading-relaxed pl-12">${rec.explanation}</p>
+                        `;
+                        cardsArea.appendChild(card);
+                    });
+                }
+                
+                resultsContainer.classList.remove('hidden');
+                
+            } catch (err) {
+                alert("Failed to fetch recommendations. Ensure the FastAPI backend is running on port 8000.\nError: " + err.message);
+                initialState.classList.remove('hidden');
+            } finally {
+                btnText.textContent = "🔍 Find Restaurants";
+                btnSpinner.classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html>

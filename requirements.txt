@@ -1,0 +1,11 @@
+pandas
+datasets
+openai
+langchain
+streamlit
+python-dotenv
+pyarrow
+langchain-groq
+pydantic
+fastapi
+uvicorn
