@@ -1,0 +1,24 @@
+{
+  "target_schemes": [
+    {
+      "id": "hdfc-mid-cap-opportunities-fund",
+      "url": "https://groww.in/mutual-funds/hdfc-mid-cap-fund-direct-growth"
+    },
+    {
+      "id": "hdfc-flexi-cap-fund",
+      "url": "https://groww.in/mutual-funds/hdfc-equity-fund-direct-growth"
+    },
+    {
+      "id": "hdfc-focused-30-fund",
+      "url": "https://groww.in/mutual-funds/hdfc-focused-fund-direct-growth"
+    },
+    {
+      "id": "hdfc-elss-tax-saver-fund",
+      "url": "https://groww.in/mutual-funds/hdfc-elss-tax-saver-fund-direct-plan-growth"
+    },
+    {
+      "id": "hdfc-top-100-fund",
+      "url": "https://groww.in/mutual-funds/hdfc-large-cap-fund-direct-growth"
+    }
+  ]
+}
