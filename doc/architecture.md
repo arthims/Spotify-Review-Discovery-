@@ -39,7 +39,6 @@ For this project, the chosen Asset Management Company (AMC) is HDFC, and the fol
 *   [HDFC Top 100 Fund](https://groww.in/mutual-funds/hdfc-large-cap-fund-direct-growth)
 ## Phase 1: Data Ingestion & Preprocessing
 **Objective:** Collect, process, and index the curated corpus of official mutual fund documents to enable accurate retrieval.
-    *   **Vector DB:** Chunk the text and store embeddings in a lightweight Vector Database (e.g., ChromaDB or FAISS) to allow semantic queries like *"find the exit load for HDFC Mid-Cap fund."*
 ### Subphase 1a: Web Scraping & Sourcing
 *   **Action:** Implement a scraping script to fetch HTML content from the 5 Groww URLs defined in Phase 0.
 *   **Constraints:** Strictly limited to those 5 URLs. No external or linked pages will be followed.
