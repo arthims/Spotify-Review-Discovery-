@@ -34,8 +34,9 @@ def get_live_date_range(period_str):
                 suffix = {1: "st", 2: "nd", 3: "rd"}.get(d % 10, "th")
             return f"{d}{suffix}"
             
-    today_str = f"{format_day(today.day)} {today.strftime('%B %Y').lower()}"
-    past_str = f"{format_day(past_date.day)} {past_date.strftime('%B %Y').lower()}"
+    # Month starting letter need to be caps (remove .lower())
+    today_str = f"{format_day(today.day)} {today.strftime('%B %Y')}"
+    past_str = f"{format_day(past_date.day)} {past_date.strftime('%B %Y')}"
     return f"{today_str} to {past_str}"
 
 def format_custom_date_range(from_date, to_date):
@@ -51,9 +52,34 @@ def format_custom_date_range(from_date, to_date):
                 suffix = {1: "st", 2: "nd", 3: "rd"}.get(d % 10, "th")
             return f"{d}{suffix}"
             
-    from_str = f"{format_day(from_date.day)} {from_date.strftime('%B %Y').lower()}"
-    to_str = f"{format_day(to_date.day)} {to_date.strftime('%B %Y').lower()}"
+    # Month starting letter need to be caps (remove .lower())
+    from_str = f"{format_day(from_date.day)} {from_date.strftime('%B %Y')}"
+    to_str = f"{format_day(to_date.day)} {to_date.strftime('%B %Y')}"
     return f"{from_str} to {to_str}"
+
+def format_review_date(date_val):
+    if not date_val or not isinstance(date_val, str):
+        return "Recent"
+    try:
+        # Date is YYYY-MM-DD
+        d = datetime.datetime.strptime(date_val, "%Y-%m-%d")
+        
+        def format_day(day_num):
+            if day_num == 22:
+                return "22"
+            elif day_num == 23:
+                return "23rd"
+            else:
+                if 11 <= day_num <= 13:
+                    suffix = "th"
+                else:
+                    suffix = {1: "st", 2: "nd", 3: "rd"}.get(day_num % 10, "th")
+                return f"{day_num}{suffix}"
+                
+        # Month starting letter need to be caps (B format naturally does this)
+        return f"{format_day(d.day)} {d.strftime('%B %Y')}"
+    except Exception:
+        return date_val
 
 
 # ─── Page Config ──────────────────────────────────────────────────────────────
@@ -291,13 +317,18 @@ def render_dashboard(date_range):
             
         st.caption(f"Showing {len(df_display)} matching reviews out of {len(df_filtered)}")
         
-        for idx, row in df_display.head(20).iterrows():
+        # Shuffle/mix the matching reviews to show a mixture of all categories/platforms
+        df_show = df_display.sample(frac=1, random_state=42).reset_index(drop=True) if len(df_display) > 0 else df_display
+        
+        for idx, row in df_show.head(20).iterrows():
             stars_badge = f"⭐ {int(row['Rating'])} Stars" if pd.notna(row['Rating']) else "💬 Discussion"
             plat_badge = row['Platform']
+            date_str = format_review_date(row['Date'])
+            i = idx + 1
             st.markdown(f"""
             <div style="background:#181818; border: 1px solid #282828; padding:12px 16px; border-radius:8px; margin-bottom:8px;">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-                    <span style="font-size:12px; color:#1DB954; font-weight:600;">{plat_badge}</span>
+                    <span style="font-size:12px; color:#1DB954; font-weight:600;">#{i} | {plat_badge} • {date_str}</span>
                     <span style="font-size:12px; color:#B3B3B3;">{stars_badge}</span>
                 </div>
                 <div style="font-size:13px; color:#FFFFFF; line-height:1.4;">"{row['Review_Text']}"</div>
@@ -388,6 +419,7 @@ if not st.session_state.get("analyzed", False):
         key="time_selection_mode"
     )
     
+    date_error = False
     if selection_mode == "Preset Window (Dropdown)":
         selected_period = st.selectbox(
             "📅 Select Preset Window",
@@ -417,6 +449,12 @@ if not st.session_state.get("analyzed", False):
                 value=datetime.date.today(),
                 key="to_date_picker"
             )
+            
+        # Verify 6-month limit (approx 183 days)
+        if (to_date - from_date).days > 183:
+            st.error("⚠️ Maximum custom date range allowed is 6 months. Please adjust your calendar selection.")
+            date_error = True
+            
         range_str = format_custom_date_range(from_date, to_date)
         
     st.markdown(f"""
@@ -456,7 +494,7 @@ if not st.session_state.get("analyzed", False):
         key="initial_search_kw"
     ).strip().lower()
     
-    if st.button("Analyse", key="analyse_button", use_container_width=True):
+    if st.button("Analyse", key="analyse_button", use_container_width=True, disabled=date_error):
         progress_bar = st.progress(0.0)
         status_text = st.empty()
         
