@@ -217,7 +217,7 @@ def render_dashboard(date_range):
         # Metric Row
         m_col1, m_col2 = st.columns(2)
         with m_col1:
-            st.metric("Total Reviews Ingested (Capped)", "1,500")
+            st.metric("Total Reviews Ingested (Capped)", "2,000")
         with m_col2:
             st.metric("Consolidated Discovery-Relevant Reviews", str(len(df_filtered)))
             
@@ -308,7 +308,7 @@ def render_dashboard(date_range):
         
         # Q&A Section (Questions at the very bottom)
         st.markdown("### 📋 Product Discovery Questions & Answers")
-        st.caption(f"Synthesized from 1,500 ingested reviews matching period: **{date_range}**")
+        st.caption(f"Synthesized from 2,000 ingested reviews matching period: **{date_range}**")
         
         st.markdown(f"""
         <div style="margin-top:16px;">
