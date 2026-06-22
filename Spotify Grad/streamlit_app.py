@@ -255,6 +255,7 @@ def render_dashboard(date_range):
             st.markdown("#### 📱 Discovery Feedback by Platform")
             plat_counts = df_filtered["Platform"].value_counts().reset_index()
             plat_counts.columns = ["Platform", "Reviews"]
+            plat_counts.index = plat_counts.index + 1
             st.bar_chart(plat_counts.set_index("Platform"))
             
         with c_col2:
@@ -264,6 +265,7 @@ def render_dashboard(date_range):
                 df_rated["Rating"] = df_rated["Rating"].astype(int)
                 rating_counts = df_rated["Rating"].value_counts().sort_index().reset_index()
                 rating_counts.columns = ["Stars", "Reviews"]
+                rating_counts.index = rating_counts.index + 1
                 st.bar_chart(rating_counts.set_index("Stars"))
             else:
                 st.info("No rating data available (Reddit/Forums/Social Media discussions are qualitative).")
