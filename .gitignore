@@ -10,7 +10,6 @@ src/venv/
 
 # Large Data Files
 data/cleaned_zomato.parquet
-data/phase2/
 
 # Python Cache
 __pycache__/
