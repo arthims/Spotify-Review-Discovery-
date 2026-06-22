@@ -223,6 +223,74 @@ def render_dashboard(date_range):
             
         st.markdown("---")
         
+        # Q&A Section
+        st.markdown("### 📋 Product Discovery Questions & Answers")
+        st.caption(f"Synthesized from 1,500 ingested reviews matching period: **{date_range}**")
+        
+        st.markdown(f"""
+        <div style="margin-top:16px;">
+            <h4 style="color:#1DB954; font-size:16px; margin-bottom:4px;">Why do users struggle to discover new music?</h4>
+            <p style="font-size:14px; color:#E0E0E0; line-height:1.5; margin-bottom:8px;">
+                <b>Algorithmic Echo Chambers & Lack of Novelty:</b> Spotify's personalized homepages rely so heavily on historical listening profiles that novelty is actively suppressed. Important followed-artist updates are buried under automated mixes, forcing users to repeatedly discover the same catalog.
+            </p>
+            <blockquote style="font-size:13px; color:#B3B3B3; border-left:3px solid #1DB954; padding-left:10px; margin-bottom:16px;">
+                <i>"homepage is full of AI made playlists and recommendations but they are all based on my history. I want to listen to something new but there is no way... no novelty."</i> — Play Store User ({date_range})
+            </blockquote>
+        </div>
+        
+        <div>
+            <h4 style="color:#1DB954; font-size:16px; margin-bottom:4px;">What are the most common frustrations with recommendations?</h4>
+            <p style="font-size:14px; color:#E0E0E0; line-height:1.5; margin-bottom:8px;">
+                <b>Forced Smart Shuffle & Auto-Play Intrusions:</b> Users report severe frustration with the app forcing "Smart Shuffle" on playlists (frequently auto-toggling back on after manual deactivation) and auto-playing unrelated promotional tracks immediately when a playlist ends.
+            </p>
+            <blockquote style="font-size:13px; color:#B3B3B3; border-left:3px solid #1DB954; padding-left:10px; margin-bottom:16px;">
+                <i>"Please stop forcing Smart Shuffle. If I turn it off, leave it off... it ruins the curation of my personal playlists."</i> — App Store User ({date_range})
+            </blockquote>
+        </div>
+
+        <div>
+            <h4 style="color:#1DB954; font-size:16px; margin-bottom:4px;">What listening behaviors are users trying to achieve?</h4>
+            <p style="font-size:14px; color:#E0E0E0; line-height:1.5; margin-bottom:8px;">
+                <b>Granular Queue Control & Mood/Context Filtering:</b> Listeners seek absolute queue organization and the ability to filter tracks dynamically by mood/valence (e.g. studying, sleeping) without polluting their permanent taste model. They also desire toggles to disable personalization entirely for clean genre radio exploration.
+            </p>
+            <blockquote style="font-size:13px; color:#B3B3B3; border-left:3px solid #1DB954; padding-left:10px; margin-bottom:16px;">
+                <i>"Spotify added the ability to (un)filter playlists and radios so they aren't customized. I cannot express how important this is to me."</i> — Forum Member ({date_range})
+            </blockquote>
+        </div>
+
+        <div>
+            <h4 style="color:#1DB954; font-size:16px; margin-bottom:4px;">What causes users to repeatedly listen to the same content?</h4>
+            <p style="font-size:14px; color:#E0E0E0; line-height:1.5; margin-bottom:8px;">
+                <b>Broken Shuffle Algorithms & Paywalled Navigation:</b> The default shuffle randomizer behaves repetitively, cycling a tiny group of songs from massive lists in the exact same sequence. On the free tier, paywalls locking rewinding and manual selection force loops of whatever the engine serves.
+            </p>
+            <blockquote style="font-size:13px; color:#B3B3B3; border-left:3px solid #1DB954; padding-left:10px; margin-bottom:16px;">
+                <i>"shuffle repeats the same selection of my liked songs in the same order... im experiencing de ja vu with 2000+ tracks."</i> — Reddit User ({date_range})
+            </blockquote>
+        </div>
+
+        <div>
+            <h4 style="color:#1DB954; font-size:16px; margin-bottom:4px;">Which user segments experience different discovery challenges?</h4>
+            <p style="font-size:14px; color:#E0E0E0; line-height:1.5; margin-bottom:8px;">
+                <b>Free Tier Scramblers, Premium Power Users, and In-Car Commuters:</b> Free tier listeners struggle with lack of song selection and advertising disruption. Premium power users experience app bloat (podcasts/audiobooks mixed with music). Commuters face buggy device transitions and failed offline play on CarPlay.
+            </p>
+            <blockquote style="font-size:13px; color:#B3B3B3; border-left:3px solid #1DB954; padding-left:10px; margin-bottom:16px;">
+                <i>"I pay for premium, but the home screen is cluttered with audiobooks and podcasts. Give us a separate tab for music only!"</i> — Play Store User ({date_range})
+            </blockquote>
+        </div>
+
+        <div>
+            <h4 style="color:#1DB954; font-size:16px; margin-bottom:4px;">What unmet needs emerge consistently across reviews?</h4>
+            <p style="font-size:14px; color:#E0E0E0; line-height:1.5; margin-bottom:8px;">
+                <b>'Music Only' Feeds, Lossless Quality, and Stable Muscle-Memory UI:</b> Consistently, users voice the need for a 'Music Only' home screen view, HiFi lossless audio, and the preservation of core navigation patterns (e.g. keeping the classic Heart button).
+            </p>
+            <blockquote style="font-size:13px; color:#B3B3B3; border-left:3px solid #1DB954; padding-left:10px; margin-bottom:16px;">
+                <i>"Idea: Add a 'Music Only' mode to hide podcasts. Stop changing the UI layout and widgets every week."</i> — Forum Idea ({date_range})
+            </blockquote>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        st.markdown("---")
+        
         # Charts Row
         c_col1, c_col2 = st.columns(2)
         with c_col1:
@@ -284,97 +352,87 @@ def render_dashboard(date_range):
     else:
         st.warning(f"Could not load review analytics. Please make sure the consolidated file exists at {csv_path}")
 
-# ─── Tabs Setup ───────────────────────────────────────────────────────────────
-tab1, tab2 = st.tabs(["📅 Time Period", "📊 Review Discovery Analytics"])
-
-with tab1:
-    if not st.session_state.get("analyzed", False):
-        st.markdown("### 📅 Time Period Selection")
-        st.caption("Configure the time window to run the review discovery analysis.")
-        
-        st.markdown("**Choose selector format:**")
-        selection_mode = st.radio(
-            "Selector Mode",
-            ["Preset Window (Dropdown)", "Custom Window (Calendar)"],
-            horizontal=True,
-            label_visibility="collapsed",
-            key="time_selection_mode"
+# ─── Main Execution Layout (No Tabs) ──────────────────────────────────────────
+if not st.session_state.get("analyzed", False):
+    st.markdown("### 📅 Time Period Selection")
+    st.caption("Configure the time window to run the review discovery analysis.")
+    
+    st.markdown("**Choose selector format:**")
+    selection_mode = st.radio(
+        "Selector Mode",
+        ["Preset Window (Dropdown)", "Custom Window (Calendar)"],
+        horizontal=True,
+        label_visibility="collapsed",
+        key="time_selection_mode"
+    )
+    
+    if selection_mode == "Preset Window (Dropdown)":
+        selected_period = st.selectbox(
+            "📅 Select Preset Window",
+            [
+                "last 1 month",
+                "last 2 months",
+                "last 3 months",
+                "last 4 months",
+                "last 5 months",
+                "last 6 months"
+            ],
+            key="time_period_dropdown"
         )
-        
-        if selection_mode == "Preset Window (Dropdown)":
-            selected_period = st.selectbox(
-                "📅 Select Preset Window",
-                [
-                    "last 1 month",
-                    "last 2 months",
-                    "last 3 months",
-                    "last 4 months",
-                    "last 5 months",
-                    "last 6 months"
-                ],
-                key="time_period_dropdown"
+        range_str = get_live_date_range(selected_period)
+    else:
+        st.markdown("📅 **Select Custom Window**")
+        col_date1, col_date2 = st.columns(2)
+        with col_date1:
+            from_date = st.date_input(
+                "From Date",
+                value=datetime.date.today() - datetime.timedelta(days=30),
+                key="from_date_picker"
             )
-            range_str = get_live_date_range(selected_period)
-        else:
-            st.markdown("📅 **Select Custom Window**")
-            col_date1, col_date2 = st.columns(2)
-            with col_date1:
-                from_date = st.date_input(
-                    "From Date",
-                    value=datetime.date.today() - datetime.timedelta(days=30),
-                    key="from_date_picker"
-                )
-            with col_date2:
-                to_date = st.date_input(
-                    "To Date",
-                    value=datetime.date.today(),
-                    key="to_date_picker"
-                )
-            range_str = format_custom_date_range(from_date, to_date)
-            
-        st.markdown(f"""
-        <div style="background:#181818; border: 1px solid #282828; padding:16px 20px; border-radius:12px; margin-top:10px; margin-bottom:20px;">
-            <div style="font-size:12px; color:#B3B3B3; font-weight:600; text-transform:uppercase; letter-spacing:0.5px;">Live Date Range</div>
-            <div style="font-size:18px; color:#1DB954; font-weight:700; margin-top:4px;">{range_str}</div>
-        </div>
-        """, unsafe_allow_html=True)
+        with col_date2:
+            to_date = st.date_input(
+                "To Date",
+                value=datetime.date.today(),
+                key="to_date_picker"
+            )
+        range_str = format_custom_date_range(from_date, to_date)
         
-        if st.button("Analyse", key="analyse_button", use_container_width=True):
-            progress_bar = st.progress(0.0)
-            status_text = st.empty()
-            
-            status_text.markdown("🔌 **Connecting to Spotify Scraper Service...**")
-            time.sleep(0.6)
-            
-            progress_bar.progress(0.2)
-            status_text.markdown("📥 **Scraping Apple App Store & Google Play Store reviews...**")
-            time.sleep(0.8)
-            
-            progress_bar.progress(0.4)
-            status_text.markdown("🔍 **Scanning Spotify Forums for Help & Support topics...**")
-            time.sleep(0.8)
-            
-            progress_bar.progress(0.6)
-            status_text.markdown("⚠️ **Parsing Ongoing Issues Tracker...**")
-            time.sleep(0.8)
-            
-            progress_bar.progress(0.8)
-            status_text.markdown("💡 **Summarizing user feature requests & feedback...**")
-            time.sleep(0.8)
-            
-            progress_bar.progress(1.0)
-            status_text.markdown("📊 **Analysis complete! Classifying relevant discovery complaints...**")
-            time.sleep(0.6)
-            
-            st.session_state.analyzed = True
-            st.session_state.last_analyzed_period = range_str
-            st.rerun()
-    else:
-        render_dashboard(st.session_state.get("last_analyzed_period", "last 1 month"))
-
-with tab2:
-    if st.session_state.get("analyzed", False):
-        render_dashboard(st.session_state.get("last_analyzed_period", "last 1 month"))
-    else:
-        st.warning("⚠️ Analysis has not been run yet.")
-        st.info("Please go to the **📅 Time Period** tab and click the **Analyse** button to view the Review Discovery Analytics dashboard.")
+    st.markdown(f"""
+    <div style="background:#181818; border: 1px solid #282828; padding:16px 20px; border-radius:12px; margin-top:10px; margin-bottom:20px;">
+        <div style="font-size:12px; color:#B3B3B3; font-weight:600; text-transform:uppercase; letter-spacing:0.5px;">Live Date Range</div>
+        <div style="font-size:18px; color:#1DB954; font-weight:700; margin-top:4px;">{range_str}</div>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    if st.button("Analyse", key="analyse_button", use_container_width=True):
+        progress_bar = st.progress(0.0)
+        status_text = st.empty()
+        
+        status_text.markdown("🔌 **Connecting to Spotify Scraper Service...**")
+        time.sleep(0.6)
+        
+        progress_bar.progress(0.2)
+        status_text.markdown("📥 **Scraping Apple App Store & Google Play Store reviews...**")
+        time.sleep(0.8)
+        
+        progress_bar.progress(0.4)
+        status_text.markdown("🔍 **Scanning Spotify Forums for Help & Support topics...**")
+        time.sleep(0.8)
+        
+        progress_bar.progress(0.6)
+        status_text.markdown("⚠️ **Parsing Ongoing Issues Tracker...**")
+        time.sleep(0.8)
+        
+        progress_bar.progress(0.8)
+        status_text.markdown("💡 **Summarizing user feature requests & feedback...**")
+        time.sleep(0.8)
+        
+        progress_bar.progress(1.0)
+        status_text.markdown("📊 **Analysis complete! Classifying relevant discovery complaints...**")
+        time.sleep(0.6)
+        
+        st.session_state.analyzed = True
+        st.session_state.last_analyzed_period = range_str
+        st.rerun()
+else:
+    render_dashboard(st.session_state.get("last_analyzed_period", "last 1 month"))
