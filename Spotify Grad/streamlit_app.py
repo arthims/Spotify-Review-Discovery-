@@ -282,11 +282,11 @@ if "trigger" not in st.session_state:
 
 # ─── Sidebar ───────────────────────────────────────────────────────────────────
 with st.sidebar:
-    col_logo, col_title = st.columns([1, 3])
+    col_logo, col_title = st.columns([1, 4])
     with col_logo:
-        st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Spotify_logo_without_text.svg/168px-Spotify_logo_without_text.svg.png", width=40)
+        st.image("https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg", width=40)
     with col_title:
-        st.markdown("### Vibe Steer")
+        st.markdown("### Spotify Vibe Steer")
 
     st.markdown("---")
     st.markdown("**🎛️ Recommendation Filters**")
@@ -372,9 +372,9 @@ def run_and_append_message(user_text, lang, genre, era):
 # ─── Main Header ──────────────────────────────────────────────────────────────
 st.markdown("""
 <div class="main-header">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Spotify_logo_without_text.svg/168px-Spotify_logo_without_text.svg.png" width="44"/>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" width="44"/>
   <div>
-    <h1>🎵 Spotify Vibe Steer</h1>
+    <h1>Spotify Vibe Steer</h1>
     <p>Tell me your mood — I'll find the perfect top 3 tracks for you</p>
   </div>
 </div>
@@ -498,59 +498,7 @@ with tab2:
             </div>
             """, unsafe_allow_html=True)
             
-        st.markdown("---")
-        
-        # 4. Capstone Q&A Cards
-        st.markdown("#### 🎯 Capstone Problem Statement Q&A")
-        st.caption("How the consolidated qualitative data answers the core project requirements.")
-        
-        with st.expander("Q1: Why do users struggle to discover new music?"):
-            st.write("""
-            *   **Recommendation Safety Bias:** The algorithm heavily weights historical data, delivering recommendations that mimic what users already like, which excludes new styles/genres.
-            *   **Artist Notification Decoupling:** New releases from followed artists are pushed off the main landing pages, making proactive artist-based discovery difficult.
-            *   **Sponsored Placement:** Curated radios are perceived as advertising channels promoting paid content rather than organic recommendations.
-            """)
-            st.info('*"homepage is full of AI made playlists and recommendations but they are all based on my history and liked songs. I want to Listen something new but there is no way unless I know a few songs myself. no novelty."*')
-            
-        with st.expander("Q2: What are the most common frustrations with recommendations?"):
-            st.write("""
-            *   **Forced Smart Shuffle:** Users dislike recommendations being forced onto their carefully curated playlists.
-            *   **Repetitive Shuffle Loop:** Even in massive playlists, the randomizer cycles through the same ~25 songs continuously.
-            *   **Ad Volume Disruptions:** Intrusive advertisement densities interrupt the listening flow, driving users away.
-            """)
-            st.info('*"money hungry app forces you to get premium just so you can turn off smart shuffle and play songs that arent in your playlist"*')
-            
-        with st.expander("Q3: What listening behaviors are users trying to achieve?"):
-            st.write("""
-            *   **Active steering of recommendation vibes:** Users want to input natural language vibe prompts to steer their selections.
-            *   **Pure Music Playback:** Clear division between podcasts/audiobooks and music tracks.
-            *   **Curation Control:** Simple, immediate queue editing and playlist ordering.
-            """)
-            st.info('*"Spotify has quite recently added the ability to (un)filter playlists and radios so they aren\'t customized. I cannot express how important this is to me..."*')
-            
-        with st.expander("Q4: What causes users to repeatedly listen to the same content?"):
-            st.write("""
-            *   **Collaborative Filtering Safety:** Standard metrics focus on completion rates, reinforcing loops of safe/familiar plays.
-            *   **Free-tier paywalls on skip/rewind controls:** Users cannot skip forward or backward, trapping them on default loops.
-            *   **Broken Randomization:** Algorithms stick to a small memory cache of recently played songs.
-            """)
-            st.info('*"please for the love of God fix the shuffle. I swear im experiencing de ja vu multiple times as its always the same selection..."*')
-            
-        with st.expander("Q5: Which user segments experience different discovery challenges?"):
-            st.write("""
-            *   **Free-Tier Users:** Restricted from picking songs or playing in order, heavily interrupted by ads.
-            *   **Premium Power Users:** Annoyed by A/B experiments changing stable UIs, and by podcast injections.
-            *   **Offline/CarPlay Listeners:** Struggle with bugs that break download lists and CarPlay synchronizations.
-            """)
-            st.info('*"Premium is great, but without it you can\'t do nearly anything except press play and listen to what you\'ve been given"*')
-            
-        with st.expander("Q6: What unmet needs emerge consistently across reviews?"):
-            st.write("""
-            *   **Music-Only Tab/Mode:** Option to completely hide podcasts/audiobooks.
-            *   **Lossless Audio/HiFi Support:** Audiophiles seeking high-bitrate output.
-            *   **Conversational Customization (AI-driven steering):** Interactive, human-like curation requests.
-            """)
-            st.info('*"Idea: Add a \'Music Only\' mode to hide podcasts."*')
+
             
     else:
         st.warning(f"Could not load review analytics. Please make sure the consolidated file exists at {csv_path}")

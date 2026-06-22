@@ -6,9 +6,9 @@ st.set_page_config(page_title="Spotify Vibe Steer", page_icon="🎵", layout="wi
 
 col1, col2 = st.columns([9, 1])
 with col1:
-    st.title("🎵 Spotify Vibe Steer")
+    st.title("Spotify Vibe Steer")
 with col2:
-    st.image("https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_CMYK_Green.png", width=100)
+    st.image("https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg", width=60)
 
 st.markdown("A conversational AI assistant that translates your exact mood into music recommendations.")
 

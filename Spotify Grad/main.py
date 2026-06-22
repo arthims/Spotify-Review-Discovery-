@@ -14,11 +14,51 @@ client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 MODEL = "llama-3.3-70b-versatile"
 
 # Load Mock Music Catalog from generated JSON
-try:
-    with open("src/backend/catalog.json", "r") as f:
-        MOCK_CATALOG = json.load(f)
-except FileNotFoundError:
-    MOCK_CATALOG = []
+MOCK_CATALOG = []
+for p in ["catalog.json", "src/backend/catalog.json"]:
+    if os.path.exists(p):
+        try:
+            with open(p, "r") as f:
+                MOCK_CATALOG = json.load(f)
+                break
+        except Exception:
+            pass
+
+MOOD_MAP = {
+    "happy":       (0.9, 0.85), "energetic":   (0.8, 0.95),
+    "party":       (0.9, 0.95), "dance":       (0.88, 0.9),
+    "sad":         (0.2, 0.3),  "heartbreak":  (0.2, 0.35),
+    "chill":       (0.6, 0.35), "relax":       (0.65, 0.3),
+    "romantic":    (0.75, 0.45),"love":        (0.78, 0.5),
+    "workout":     (0.8, 0.95), "focus":       (0.5, 0.4),
+    "sleep":       (0.5, 0.2),  "morning":     (0.8, 0.65),
+    "night":       (0.4, 0.35), "motivational":(0.85, 0.9),
+    "melancholic": (0.3, 0.3),  "nostalgic":   (0.6, 0.4),
+}
+
+def parse_mood(text):
+    lower = text.lower()
+    for kw, (v, e) in MOOD_MAP.items():
+        if kw in lower:
+            return v, e
+    return 0.6, 0.6
+
+def parse_intent(text):
+    lower = text.lower()
+    lang, genre, era = "", "", ""
+    if "tamil" in lower:        lang = "Tamil"
+    elif "malayalam" in lower:  lang = "Malayalam"
+    elif "hindi" in lower:      lang = "Hindi"
+    elif "telugu" in lower:     lang = "Telugu"
+    elif "english" in lower:    lang = "English"
+    if "jazz" in lower:         genre = "Jazz"
+    elif "folk" in lower:       genre = "Folk"
+    elif any(w in lower for w in ["melody","melodic","soft"]): genre = "Melody"
+    elif "pop" in lower:        genre = "Pop"
+    if any(w in lower for w in ["latest","new","recent","2020","2024","2023","2022"]): era = "Latest"
+    elif any(w in lower for w in ["old","classic","retro","vintage","90s","80s"]):    era = "Old"
+    return lang, genre, era
+
 
 class ChatRequest(BaseModel):
     user_prompt: str
@@ -136,4 +176,29 @@ def chat_endpoint(req: ChatRequest):
         return ChatResponse(tracks=tracks_out, explanation=explanation)
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        # Fallback to local heuristic parsing if Groq API fails (e.g. invalid key or network issue)
+        try:
+            t_lang_extracted, t_genre_extracted, t_era_extracted = parse_intent(req.user_prompt)
+            t_val, t_nrg = parse_mood(req.user_prompt)
+            
+            t_lang = req.language if req.language else t_lang_extracted
+            t_gen = req.genre if req.genre else t_genre_extracted
+            t_era = req.era if req.era else t_era_extracted
+            
+            recommended = get_recommendations(t_val, t_nrg, t_lang, t_gen, t_era)
+            
+            filters = []
+            if t_lang: filters.append(t_lang)
+            if t_gen: filters.append(t_gen)
+            if t_era: filters.append(t_era)
+            filter_str = " · ".join(filters) if filters else "general vibes"
+            
+            explanation = (
+                f"[Local AI Heuristic Fallback] I've selected these tracks to match your vibe/mood for '{req.user_prompt}' "
+                f"using filters: {filter_str}."
+            )
+            
+            tracks_out = [Track(**t) for t in recommended]
+            return ChatResponse(tracks=tracks_out, explanation=explanation)
+        except Exception as fallback_err:
+            raise HTTPException(status_code=500, detail=f"API Error: {str(e)}. Fallback Error: {str(fallback_err)}")
