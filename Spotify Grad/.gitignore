@@ -5,8 +5,6 @@ src/venv/
 
 # Secret Keys - NEVER commit
 .env
-.env.local
-.env.*
 
 # Large Data Files
 data/cleaned_zomato.parquet
@@ -30,11 +28,3 @@ Thumbs.db
 # Logs
 logs/
 *.log
-
-# Scratch scripts
-find_commands.py
-search_history.py
-parse_reviews.py
-analyze_consolidated_reviews.py
-extract_samples.py
-samples.txt

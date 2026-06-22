@@ -1,7 +1,0 @@
-fastapi
-uvicorn
-streamlit
-pydantic
-requests
-groq
-python-dotenv

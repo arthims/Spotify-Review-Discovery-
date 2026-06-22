@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mutual Fund FAQ Assistant</title>
+    <!-- Outfit Font for clean modern financial aesthetics -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <!-- Top Persistent Disclaimer Bar -->
+    <div class="disclaimer-bar">
+        <span class="disclaimer-icon">🛡️</span>
+        <span class="disclaimer-text"><strong>Facts-Only Assistant:</strong> Strictly no financial advice, opinions, or performance comparisons.</span>
+    </div>
+
+    <div class="app-container">
+        <!-- Main Chat Glass Container -->
+        <main class="chat-card">
+            <!-- Header -->
+            <header class="chat-header">
+                <div class="header-info">
+                    <span class="logo-mark">📈</span>
+                    <div>
+                        <h1>HDFC Mutual Fund FAQ</h1>
+                        <p class="subtitle">Official Scheme Data Assistant</p>
+                    </div>
+                </div>
+                <div class="header-status">
+                    <span class="status-indicator"></span>
+                    <span class="status-text">Factual Mode</span>
+                </div>
+            </header>
+
+            <!-- Chat Message Feed -->
+            <section class="chat-feed" id="chatFeed">
+                <!-- Welcome Message -->
+                <div class="message system-message">
+                    <div class="message-bubble system-bubble">
+                        <h3>Welcome to the HDFC Scheme Assistant! 👋</h3>
+                        <p>I answer factual questions about exit loads, expense ratios, minimum investments, and target parameters of HDFC mutual funds using verified Groww AMC data.</p>
+                        
+                        <div class="examples-header">💡 Try one of these example queries:</div>
+                        <div class="examples-container">
+                            <button class="example-btn" onclick="runExample('What is the exit load for the focused fund?')">
+                                "Exit load of focused fund?"
+                            </button>
+                            <button class="example-btn" onclick="runExample('What is the expense ratio of HDFC Mid Cap fund?')">
+                                "Mid Cap expense ratio?"
+                            </button>
+                            <button class="example-btn" onclick="runExample('Should I invest in HDFC ELSS?')">
+                                "Should I invest in ELSS?"
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Typing Indicator (Hidden by default) -->
+            <div class="typing-indicator" id="typingIndicator">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+
+            <!-- Input Form Footer -->
+            <footer class="chat-input-area">
+                <form id="chatForm" onsubmit="handleSend(event)">
+                    <input 
+                        type="text" 
+                        id="queryInput" 
+                        placeholder="Ask a factual question (e.g. minimum investment, exit load...)" 
+                        autocomplete="off" 
+                        required
+                    >
+                    <button type="submit" id="sendBtn" class="send-btn">
+                        <span class="send-icon">➔</span>
+                    </button>
+                </form>
+            </footer>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/static/app.js"></script>
+</body>
+</html>
