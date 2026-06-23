@@ -36,12 +36,10 @@ Analysis of qualitative feedback reveals that Spotify's core value proposition�
 ---
 
 ## 5. Which user segments experience different discovery challenges?
-*   **Regional Feed & Platform Segments:** Analysis reveals four primary user segments facing unique curation barriers in India:
-    1. 🎵 **Punjabi Pop & Fusion Fans (High Curation Seeker)**: Face the most severe discovery problems (lowest average rating of **2.00**), complaining about algorithms looping the same safe tracks.
-    2. 🎬 **Bollywood & Hindi Pop Enthusiasts (Mainstream Listener)**: High-volume segment (avg rating **2.06**) experiencing forced smart shuffle issues and playlist queue constraints.
-    3. 🎧 **South Indian Melodies Listeners (Tamil/Telugu/Malayalam Curation)**: Largest volume segment (avg rating **2.07**) complaining about podcast/audiobook clutter interrupting their music feeds.
-    4. 📱 **App Store & Play Store Mobile Streamers**: Mobile users experiencing shuffler crashes, queue bugs, and repetitive recommendation mixes.
-*   **Who Faces More Problems:** The **Punjabi Pop & Indian Fusion segment** faces the most severe issues (lowest average rating of **2.00**), and from a feature standpoint, users of the **Discover Weekly Playlist** (avg rating **1.88**) and **Playlist Queue Control** (avg rating **1.98**) face the highest rate of critical recommendation blocks.
+*   **Premium vs. Free Tier Segments:** Analysis reveals two main user segments experiencing different curation and discovery barriers in India:
+    1. 💎 **Premium Tier Users (n=1,118)**: Complain about advanced curation failures (avg rating **2.05**). They pay for customized, clean music streaming but face repetitive Discover Weekly shuffles, failed AI DJ intent mapping, and unwanted podcast/audiobook clutter over their music-only feeds.
+    2. 🆓 **Free Tier Users (n=951)**: Complain about restricted discovery controls (avg rating **2.05**). They are forced into smart shuffle loops, face ad density that disrupts music discovery, and lack basic queue organization controls.
+*   **Who Faces More Problems:** Both segments experience high levels of dissatisfaction (avg rating **2.05** for both), but they face different challenges: Premium users suffer from **algorithmic stagnation and content clutter** in their curation, while Free users face **forced shuffler restrictions and playback limitations** that block organic discovery.
 
 ---
 
