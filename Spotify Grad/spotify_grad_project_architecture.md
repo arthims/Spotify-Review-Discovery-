@@ -74,7 +74,7 @@ This document details the single, consolidated, phase-wise architecture and meth
 *   **Shuffled Review Display:** Reviews in the explorer are randomized to show a mixture of all platform categories, numbered sequentially starting at `#1`, with formatted dates using capitalized months (e.g. `22 June 2026`).
 *   **Custom Explorer Caption:** Displays the simplified reviews caption: `"listing top 20 reviews from various platform."`
 *   **6-Month Calendar picker limits:** The Custom Calendar date picker restricts selections to a **maximum of 6 months**. Validations automatically display an error block and disable the **Analyse** button if the limit is exceeded.
-*   **Q&A Insights at Bottom (Quote-Free Synthesis):** The 6 core Product Discovery Q&A panels are positioned at the very bottom of the dashboard, displaying majority-based synthesized trends with no individual review quote blocks. Under the user segments panel, it displays the regional and platform segment list with average rating metrics, outlining which segments experience the most severe discovery problems.
+*   **Q&A Insights at Bottom (Quote-Free Synthesis):** The 6 core Product Discovery Q&A panels are positioned at the very bottom of the dashboard, displaying majority-based synthesized trends with no individual review quote blocks. Under the user segments panel, it displays the Premium vs. Free tier segments with average rating metrics, outlining their unique discovery barriers and playback problems.
 
 ### 4.2 Backend Integration (FastAPI Layer)
 *   Exposes endpoints to orchestrate recommendations and route prompt intents.
