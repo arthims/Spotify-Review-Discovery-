@@ -2,7 +2,7 @@
 title: Spotify Review Discovery
 emoji: 🎵
 colorFrom: green
-colorTo: black
+colorTo: gray
 sdk: streamlit
 sdk_version: 1.35.0
 app_file: app.py
