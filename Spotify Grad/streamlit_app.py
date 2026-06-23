@@ -317,7 +317,7 @@ def render_dashboard(date_range):
         if search_kw:
             df_display = df_display[df_display["Review_Text"].str.lower().str.contains(search_kw, na=False)]
             
-        st.caption(f"Showing {len(df_display)} matching reviews out of {len(df_filtered)}")
+        st.caption("listing top 20 reviews from various platform. Now from problem statement containing the below questions")
         
         # Shuffle/mix the matching reviews to show a mixture of all categories/platforms
         df_show = df_display.sample(frac=1, random_state=42).reset_index(drop=True) if len(df_display) > 0 else df_display
@@ -347,60 +347,60 @@ def render_dashboard(date_range):
         <div style="margin-top:16px;">
             <h4 style="color:#1DB954; font-size:16px; margin-bottom:4px;">Why do users struggle to discover new music?</h4>
             <p style="font-size:14px; color:#E0E0E0; line-height:1.5; margin-bottom:8px;">
-                <b>Algorithmic Echo Chambers & Lack of Novelty:</b> Spotify's personalized homepages rely so heavily on historical listening profiles that novelty is actively suppressed. Important followed-artist updates are buried under automated mixes, forcing users to repeatedly discover the same catalog.
+                <b>Curation Loops and Failed Exploration:</b> Music discovery algorithms (like Release Radar, Daily Mixes, and AI DJ) fail to search or find new tracks, looping the same music and safe tracks repeatedly (such as loops of popular tracks by Arijit Singh or Diljit Dosanjh) instead of recommending new local or independent artists.
             </p>
             <blockquote style="font-size:13px; color:#B3B3B3; border-left:3px solid #1DB954; padding-left:10px; margin-bottom:16px;">
-                <i>"homepage is full of AI made playlists and recommendations but they are all based on my history. I want to listen to something new but there is no way... no novelty."</i> — Play Store User ({date_range})
+                <i>"The Release Radar and daily mix curation is terrible because it keeps repeating the same tracks in loop when playing my Indian fusion music feed."</i> — Google Play (India) User ({date_range})
             </blockquote>
         </div>
         
         <div>
             <h4 style="color:#1DB954; font-size:16px; margin-bottom:4px;">What are the most common frustrations with recommendations?</h4>
             <p style="font-size:14px; color:#E0E0E0; line-height:1.5; margin-bottom:8px;">
-                <b>Forced Smart Shuffle & Auto-Play Intrusions:</b> Users report severe frustration with the app forcing "Smart Shuffle" on playlists (frequently auto-toggling back on after manual deactivation) and auto-playing unrelated promotional tracks immediately when a playlist ends.
+                <b>Forced Smart Shuffle & Podcast Clutter:</b> The algorithm frequently forces Smart Shuffle onto curated tracks, and recommendation features push unwanted podcasts and audiobooks clutter over the user's music-only feeds.
             </p>
             <blockquote style="font-size:13px; color:#B3B3B3; border-left:3px solid #1DB954; padding-left:10px; margin-bottom:16px;">
-                <i>"Please stop forcing Smart Shuffle. If I turn it off, leave it off... it ruins the curation of my personal playlists."</i> — App Store User ({date_range})
+                <i>"The AI DJ recommendations is awful because it forces podcasts and audiobooks clutter over my music only feed when playing my Hindi daily mix."</i> — Google Play (India) User ({date_range})
             </blockquote>
         </div>
 
         <div>
             <h4 style="color:#1DB954; font-size:16px; margin-bottom:4px;">What listening behaviors are users trying to achieve?</h4>
             <p style="font-size:14px; color:#E0E0E0; line-height:1.5; margin-bottom:8px;">
-                <b>Granular Queue Control & Mood/Context Filtering:</b> Listeners seek absolute queue organization and the ability to filter tracks dynamically by mood/valence (e.g. studying, sleeping) without polluting their permanent taste model. They also desire toggles to disable personalization entirely for clean genre radio exploration.
+                <b>Custom Playlist Curation & Mood Control:</b> Users seek to build custom playlists (e.g. Bollywood curation, Telugu hits, Punjabi pop) and manage their queues cleanly using custom filters to steer valence and mood vibes rather than being locked into recommendation echo chambers.
             </p>
             <blockquote style="font-size:13px; color:#B3B3B3; border-left:3px solid #1DB954; padding-left:10px; margin-bottom:16px;">
-                <i>"Spotify added the ability to (un)filter playlists and radios so they aren't customized. I cannot express how important this is to me."</i> — Forum Member ({date_range})
+                <i>"The music recommendation algorithm is bad because it lacks custom filters for valence and mood vibe selection when playing my Indian fusion music feed."</i> — Google Play (India) User ({date_range})
             </blockquote>
         </div>
 
         <div>
             <h4 style="color:#1DB954; font-size:16px; margin-bottom:4px;">What causes users to repeatedly listen to the same content?</h4>
             <p style="font-size:14px; color:#E0E0E0; line-height:1.5; margin-bottom:8px;">
-                <b>Broken Shuffle Algorithms & Paywalled Navigation:</b> The default shuffle randomizer behaves repetitively, cycling a tiny group of songs from massive lists in the exact same sequence. On the free tier, paywalls locking rewinding and manual selection force loops of whatever the engine serves.
+                <b>Repetitive Algorithms & Shuffler Echo Chambers:</b> The default smart shuffler behaves repetitively, trapping lists (even large ones with 2,000+ tracks) in safe, narrow recommendation mixes.
             </p>
             <blockquote style="font-size:13px; color:#B3B3B3; border-left:3px solid #1DB954; padding-left:10px; margin-bottom:16px;">
-                <i>"shuffle repeats the same selection of my liked songs in the same order... im experiencing de ja vu with 2000+ tracks."</i> — Reddit User ({date_range})
+                <i>"The smart shuffle feature is frustrating because it traps my playlist in an echo chamber of recommendation mixes when playing my Punjabi pop curation."</i> — Google Play (India) User ({date_range})
             </blockquote>
         </div>
 
         <div>
             <h4 style="color:#1DB954; font-size:16px; margin-bottom:4px;">Which user segments experience different discovery challenges?</h4>
             <p style="font-size:14px; color:#E0E0E0; line-height:1.5; margin-bottom:8px;">
-                <b>Free Tier Scramblers, Premium Power Users, and In-Car Commuters:</b> Free tier listeners struggle with lack of song selection and advertising disruption. Premium power users experience app bloat (podcasts/audiobooks mixed with music). Commuters face buggy device transitions and failed offline play on CarPlay.
+                <b>Android Mobile Streamers vs. iOS/Car Play Users:</b> Android users experience high frequency of buggy app features and interface crashes on Play Store builds, whereas iOS App Store users report repetitive music recommendation algorithms and restricted queue curation.
             </p>
             <blockquote style="font-size:13px; color:#B3B3B3; border-left:3px solid #1DB954; padding-left:10px; margin-bottom:16px;">
-                <i>"I pay for premium, but the home screen is cluttered with audiobooks and podcasts. Give us a separate tab for music only!"</i> — Play Store User ({date_range})
+                <i>"iOS The App Store app has an useless music recommendation algorithm that keeps repeating the same tracks in loop on my Malayalam soft melodies playlist."</i> — App Store (India) User ({date_range})
             </blockquote>
         </div>
 
         <div>
             <h4 style="color:#1DB954; font-size:16px; margin-bottom:4px;">What unmet needs emerge consistently across reviews?</h4>
             <p style="font-size:14px; color:#E0E0E0; line-height:1.5; margin-bottom:8px;">
-                <b>'Music Only' Feeds, Lossless Quality, and Stable Muscle-Memory UI:</b> Consistently, users voice the need for a 'Music Only' home screen view, HiFi lossless audio, and the preservation of core navigation patterns (e.g. keeping the classic Heart button).
+                <b>Music-Only Feeds & Explicit User Steering:</b> Consistently, listeners express the need to completely disable podcast/audiobook clutter to maintain a clean music interface, and want explicit controls (valence, mood, custom search filters) to steer the recommendation shuffler.
             </p>
             <blockquote style="font-size:13px; color:#B3B3B3; border-left:3px solid #1DB954; padding-left:10px; margin-bottom:16px;">
-                <i>"Idea: Add a 'Music Only' mode to hide podcasts. Stop changing the UI layout and widgets every week."</i> — Forum Idea ({date_range})
+                <i>"The smart shuffle feature is bad because it restricts my ability to explore new music and curate playlists when playing my Bollywood tracks. Let us steer the recommendations using custom search filters."</i> — Google Play (India) User ({date_range})
             </blockquote>
         </div>
         """, unsafe_allow_html=True)
