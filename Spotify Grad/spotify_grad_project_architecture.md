@@ -70,7 +70,7 @@ This document details the single, consolidated, phase-wise architecture and meth
 *   **Single-Page Layout:** Toggled via `st.session_state.analyzed` to prevent duplicate key errors.
 *   **Graphs on Top:** Displays metric summaries and platform feedback/rating distribution tables at the very top of the page.
 *   **1-Based Table Indexing:** The indexes of the feedback and rating distribution tables start at **1** instead of **0**.
-*   **Stacked Pre-Filters:** The **Interactive Review Explorer** widgets (Topic filter dropdown and search input) are integrated vertically in the initial Time Period configuration screen.
+*   **Stacked Pre-Filters:** The **Interactive Review Explorer** topic filter dropdown is integrated in the initial Time Period configuration screen.
 *   **Shuffled Review Display:** Reviews in the explorer are randomized to show a mixture of all platform categories, numbered sequentially starting at `#1`, with formatted dates using capitalized months (e.g. `22 June 2026`).
 *   **Custom Explorer Caption:** Displays the simplified reviews caption: `"listing top 20 reviews from various platform."`
 *   **6-Month Calendar picker limits:** The Custom Calendar date picker restricts selections to a **maximum of 6 months**. Validations automatically display an error block and disable the **Analyse** button if the limit is exceeded.
